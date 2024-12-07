@@ -1,21 +1,30 @@
 #include "RotEncoder.h"
+#include <cctype>
 
-char RotEncoder::shiftChar(char c, int shift) {
-    if (std::isalpha(c)) {
-        char base = std::isupper(c) ? 'A' : 'a';
-        return base + (c - base + shift + 26) % 26; // Wrap around with modulo
-    }
-    return c; // Non-alphabetic characters are unchanged
-}
+RotEncoder::RotEncoder(int shiftValue) : shift(shiftValue % 26) {}
 
-std::string RotEncoder::encode(const std::string& text, int key) {
+std::string RotEncoder::encode(const std::string& text) const {
     std::string result;
     for (char c : text) {
-        result += shiftChar(c, key);
+        if (std::isalpha(c)) {
+            char base = std::islower(c) ? 'a' : 'A';
+            result += (c - base + shift) % 26 + base;
+        } else {
+            result += c;
+        }
     }
     return result;
 }
 
-std::string RotEncoder::decode(const std::string& text, int key) {
-    return encode(text, -key); // Decoding is reverse encoding
+std::string RotEncoder::decode(const std::string& text) const {
+    std::string result;
+    for (char c : text) {
+        if (std::isalpha(c)) {
+            char base = std::islower(c) ? 'a' : 'A';
+            result += (c -base - shift + 26) % 26 + base;
+        } else {
+            result += c;
+        }
+    }
+    return result;
 }

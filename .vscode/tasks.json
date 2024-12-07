@@ -1,25 +1,27 @@
 {
-   "version": "2.0.0",
-   "tasks": [
-       {
-           "label": "Build CryptoApp",
-           "type": "shell",
-           "command": "g++",
-           "args": [
-               "-std=c++17",
-               "-Wall",
-               "-o",
-               "${workspaceFolder}/build/CryptoApp",
-               "${workspaceFolder}/src/main.cpp",
-               "${workspaceFolder}/src/RotEncoder.cpp",
-               "${workspaceFolder}/src/SbsEncoder.cpp"
-           ],
-           "group": {
-               "kind": "build",
-               "isDefault": true
-           },
-           "problemMatcher": ["$gcc"],
-           "detail": "Builds the CryptoApp project."
-       }
-   ]
-}
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build CryptoApp",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-std=c++17",                
+                "-Wall",                     
+                "-g",                                        
+                "-o", 
+                "${workspaceFolder}/build/CryptoApp", 
+                "${workspaceFolder}/src/main.cpp",  
+                "${workspaceFolder}/src/RotEncoder.cpp", 
+                "${workspaceFolder}/src/SbsEncoder.cpp" 
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Task to build the CryptoApp project"
+        }
+    ]
+ }
+ 

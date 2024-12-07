@@ -1,19 +1,17 @@
 #ifndef ROTENCODER_H
 #define ROTENCODER_H
 
+#include "Encoder.h"
 #include <string>
 
-class RotEncoder {
-public:
-    // Encode 
-    static std::string encode(const std::string& text, int key);
-
-    // Decode 
-    static std::string decode(const std::string& text, int key);
-
+class RotEncoder : public Encoder {
 private:
-    // Helper to shift a single character
-    static char shiftChar(char c, int shift);
+    int shift;
+
+public:
+    explicit RotEncoder(int shiftValue);
+    std::string encode(const std::string& text) const override;
+    std::string decode(const std::string& text) const override;
 };
 
 #endif // ROTENCODER_H
