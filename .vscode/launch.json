@@ -6,11 +6,11 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/CryptoApp",
-            "args": ["E", "RotEncoder", "13"],
+            "args": ["E", "RotEncoder", "26"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true,  // Runs in external terminal 
+            "externalConsole": true,  
             "MIMode": "gdb",
             "setupCommands": [
                 {

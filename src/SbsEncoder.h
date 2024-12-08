@@ -4,12 +4,27 @@
 #include "Encoder.h"
 #include <unordered_map>
 #include <string>
+#include <vector>
+
 
 class SbsEncoder : public Encoder {
 private:
-    // Helper function to build the substitution map from the key
+    // nested class for character pairs
+    class CharPair {
+    public:
+        char from;
+        char to;
+
+        // Constructor for CharPair
+        CharPair(char fromChar, char toChar) : from(fromChar), to(toChar) {}
+    };
+
+   //  Substitution and reverse maps
     static std::unordered_map<char, char> SubstitutionMap;
     static std::unordered_map<char, char> reverseSubstitutionMap;
+
+   //  Helper to parse key into character pairs
+   void processKey(const std::string& key);
 
 public:
    explicit SbsEncoder(const std::string& key);
