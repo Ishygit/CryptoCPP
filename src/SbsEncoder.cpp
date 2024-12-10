@@ -10,18 +10,16 @@ SbsEncoder::SbsEncoder(const std::string& key) {
    processKey(key);
 }
 
-void SbsEncoder::processKey(const std::string &key) {
-    // Parse the key and populate the substitution maps
+void SbsEncoder::processKey(const std::string& key) {
     std::istringstream keyStream(key);
     std::string pair;
 
     while (std::getline(keyStream, pair, ',')) {
-        if (pair.length() != 2) {
-            throw std::invalid_argument("Invalid key format: " + key);
+        if (pair.length() != 2 || !std::isalpha(pair[0]) || !std::isalpha(pair[1])) {
+            throw BaseException("Bad code pair: " + pair);
         }
-         // nested class for charPairs
+
         CharPair charPair(pair[0], pair[1]);
-      
         SubstitutionMap[charPair.from] = charPair.to;
         reverseSubstitutionMap[charPair.to] = charPair.from;
 
@@ -32,6 +30,7 @@ void SbsEncoder::processKey(const std::string &key) {
         }
     }
 }
+
 
 std::string SbsEncoder::encode(const std::string &text) const {
     std::string result;

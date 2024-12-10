@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/CryptoApp",
-            "args": ["E", "RotEncoder", "26"],
+            "args": [ "E","SbsEncoder", "af,bf,cf,df,ef"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

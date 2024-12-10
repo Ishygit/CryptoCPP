@@ -1,7 +1,7 @@
 #include "RotEncoder.h"
 #include <cctype>
 
-RotEncoder::RotEncoder(int shiftValue) : shift(shiftValue % 26) {}
+// RotEncoder::RotEncoder(int shiftValue) : shift(shiftValue % 26) {}
 
 std::string RotEncoder::encode(const std::string& text) const {
     std::string result;

@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include "MyLib.h"
 
 
 class SbsEncoder : public Encoder {

@@ -4,46 +4,58 @@
 #include "Encoder.h"
 #include "RotEncoder.h"
 #include "SbsEncoder.h"
+#include "MyLib.h"
 
 int main(int argc, char* argv[]) {
-    // Validate command-line arguments
-    if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " <E|D> <RotEncoder|SbsEncoder> <key>" << std::endl;
-        return 1;
-    }
+    try {
+        // Validate command-line arguments
+        if (argc != 4) {
+            throw BaseException("Usage: crypto algorithm key");
+        }
 
-    std::string mode = argv[1];
-    std::string encoderType = argv[2];
-    std::string key = argv[3];
-    std::unique_ptr<Encoder> encoder;
+        std::string mode = argv[1];
+        std::string encoderType = argv[2];
+        std::string key = argv[3];
+        std::unique_ptr<Encoder> encoder;
 
-    // Initialize the encoder based on type
-    if(encoderType == "RotEncoder"){
-        encoder = std::make_unique<RotEncoder>(std::stoi(key));
-    } else if (encoderType == "SbsEncoder") {
-        encoder = std::make_unique<SbsEncoder>(key);
-    }else{
-        std::cerr << "Unsupported encoder type: "<<encoderType<< std::endl;
-        return 1;
-    }
-    
-    // Print the encoder type and operation
-    std::cout << "Encoder Type: " << encoderType << std::endl;
-    std::cout << "Operation: " << (mode == "E" ? "Encoding" : "Decoding") << std::endl;
+        // Initialize the encoder based on type
+        if (encoderType == "RotEncoder") {
+            int offset;
+            try {
+                offset = std::stoi(key);
+                if (offset <= 0) {
+                    throw BaseException("Bad offset: " + key);
+                }
+            } catch (...) {
+                throw BaseException("Bad offset: " + key);
+            }
+            encoder = std::make_unique<RotEncoder>(offset);
+        } else if (encoderType == "SbsEncoder") {
+            encoder = std::make_unique<SbsEncoder>(key);
+        } else {
+            throw BaseException("Unknown encoder type: " + encoderType);
+        }
 
+        // Print the encoder type and mode
+        std::cout << "Encoder Type: " << encoderType << std::endl;
+        std::cout << "Mode: " << (mode == "E" ? "Encoding" :
+         "Decoding") << std::endl;
 
-    std::string line;
-    if (mode == "E"){
+        std::string line;
         while (std::getline(std::cin, line)) {
-            std::cout << encoder->encode(line) <<std::endl;
+            if (mode == "E") {
+                std::cout << encoder->encode(line) << std::endl;
+            } else if (mode == "D") {
+                std::cout << encoder->decode(line) << std::endl;
+            } else {
+                throw BaseException("Unknown mode: " + mode);
+            }
         }
-    } else if (mode == "D") {
-        while (std::getline(std::cin, line)){
-            std::cout << encoder->decode(line) <<std::endl;
-        }
-    } else {
-        std::cerr << "Invalid mode: "<< mode << ". use 'E' or 'D' ."<< std::endl;
-        return 1;
+    } catch (const BaseException& ex) {
+        std::cout << ex.what() << std::endl;
     }
+    std::cout << "Press Enter to exit...";
+    std::cin.get();
+
     return 0;
 }
