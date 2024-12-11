@@ -15,7 +15,8 @@ void SbsEncoder::processKey(const std::string& key) {
     std::string pair;
 
     while (std::getline(keyStream, pair, ',')) {
-        if (pair.length() != 2 || !std::isalpha(pair[0]) || !std::isalpha(pair[1])) {
+        if (pair.length() != 2 || !std::isalpha(pair[0]) ||
+         !std::isalpha(pair[1])) {
             throw BaseException("Bad code pair: " + pair);
         }
 
@@ -25,8 +26,10 @@ void SbsEncoder::processKey(const std::string& key) {
 
         // Handle case insensitivity
         if (std::islower(charPair.from) && std::islower(charPair.to)) {
-            SubstitutionMap[std::toupper(charPair.from)] = std::toupper(charPair.to);
-            reverseSubstitutionMap[std::toupper(charPair.to)] = std::toupper(charPair.from);
+            SubstitutionMap[std::toupper(charPair.from)] = 
+            std::toupper(charPair.to);
+            reverseSubstitutionMap[std::toupper(charPair.to)] =
+             std::toupper(charPair.from);
         }
     }
 }
@@ -43,7 +46,8 @@ std::string SbsEncoder::encode(const std::string &text) const {
 std::string SbsEncoder::decode(const std::string &text) const {
     std::string result;
     for (char c : text) {
-        result += reverseSubstitutionMap.count(c) ? reverseSubstitutionMap.at(c) : c;
+        result += reverseSubstitutionMap.count(c) ? reverseSubstitutionMap.at(c)
+         : c;
     }
     return result;
 }

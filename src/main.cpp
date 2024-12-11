@@ -9,13 +9,16 @@
 int main(int argc, char* argv[]) {
     try {
         // Validate command-line arguments
-        if (argc != 4) {
+        
+        if (argc != 4 ) {
             throw BaseException("Usage: crypto algorithm key");
         }
 
+        const int keyidx = 3; //index value for the key
+
         std::string mode = argv[1];
         std::string encoderType = argv[2];
-        std::string key = argv[3];
+        std::string key = argv[keyidx];
         std::unique_ptr<Encoder> encoder;
 
         // Initialize the encoder based on type
